@@ -6,7 +6,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require __DIR__ . '/../../autoload.php';
 }
 
-$observer = new \ServiceMonitor\Slack\SlackMonitor(getenv('SLACK_TOKEN'));
-$observer->setEvent(new \ServiceMonitor\Slack\SampleEvent());
+$monitor = new \ServiceMonitor\Slack\SlackMonitor(getenv('SLACK_TOKEN'));
+$monitor->setEvent(new \ServiceMonitor\Slack\SampleEvent());
 echo 'Start monitoring.' . PHP_EOL;
-$observer->start();
+$monitor->start();
