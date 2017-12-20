@@ -21,15 +21,12 @@ class SlackMonitor extends Monitor
     public function start(): void
     {
         $url = 'https://slack.com/api/rtm.connect?' . http_build_query(['token' => $this->token]);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $body = curl_exec($ch);
+        $curl = new Curl($url);
+        $body = $curl->exec();
         if ($body === false) {
-            throw new \Exception("Request error:" . curl_error($ch));
+            throw new \Exception("Request error: " . $curl->error());
         }
-        curl_close($ch);
+        $curl->close();
         $response = json_decode($body, true);
         if (is_null($response)) {
             throw new \Exception("Response perse error: $body");
