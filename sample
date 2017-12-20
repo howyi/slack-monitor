@@ -7,6 +7,18 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 }
 
 $monitor = new \ServiceMonitor\Slack\SlackMonitor(getenv('SLACK_TOKEN'));
-$monitor->setEvent(new \ServiceMonitor\Slack\SampleEvent());
+
+$event = new class extends \ServiceMonitor\Slack\SlackEvent {
+    public function isExecutable(array $value): bool { return true; }
+    // All events execute
+
+    public function execute(array $value): void
+    {
+        echo('--- New Event has arrived :) --- ' . PHP_EOL);
+        dump($value);
+    }
+};
+
+$monitor->setEvent($event);
 echo 'Start monitoring.' . PHP_EOL;
 $monitor->start();
