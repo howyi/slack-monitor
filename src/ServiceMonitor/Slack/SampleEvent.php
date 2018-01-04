@@ -17,5 +17,10 @@ class SampleEvent extends SlackEvent
     public function execute(array $value): void
     {
         echo("User:{$value['user']} greeted :)" . PHP_EOL);
+
+        $this->commander->execute('chat.postMessage', [
+            'channel' => $value['channel'],
+            'text'    => "Hello, {$value['user']}!"
+        ]);
     }
 }

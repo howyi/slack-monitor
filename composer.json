@@ -13,7 +13,8 @@
     "require": {
         "php":                   ">=7.1",
         "howyi/service-monitor": "~1.0.0",
-        "semako/phpws":          "^1.0"
+        "semako/phpws":          "^1.0",
+        "frlnc/php-slack":       "^1.0"
     },
     "autoload": {
         "psr-0": {

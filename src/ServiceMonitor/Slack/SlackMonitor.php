@@ -3,6 +3,9 @@
 namespace ServiceMonitor\Slack;
 
 use Devristo\Phpws\Client\WebSocket;
+use Frlnc\Slack\Core\Commander;
+use Frlnc\Slack\Http\CurlInteractor;
+use Frlnc\Slack\Http\SlackResponseFactory;
 use React\EventLoop\Factory;
 use ServiceMonitor\Monitor;
 use Zend\Log\Logger;
@@ -35,8 +38,13 @@ class SlackMonitor extends Monitor
             throw new \Exception($response['error']);
         }
 
+        $interactor = new CurlInteractor;
+        $interactor->setResponseFactory(new SlackResponseFactory);
+
+        $commander = new Commander($this->token, $interactor);
+
         foreach ($this->events as $event) {
-            $event->set($response['self'], $response['team']);
+            $event->set($response['self'], $response['team'], $commander);
         }
 
         $loop = Factory::create();

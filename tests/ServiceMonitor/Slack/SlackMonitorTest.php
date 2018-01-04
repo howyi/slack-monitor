@@ -30,8 +30,8 @@ class SlackMonitorTest extends \PHPUnit\Framework\TestCase
 
         $monitor->start();
 
-        $monitor->execute(['type' => 'message']);
-        $monitor->execute(['type' => 'message', 'text' => 'hello', 'user' => 'user']);
+        $monitor->execute(['type' => 'message', 'channel' => 'channel']);
+        $monitor->execute(['type' => 'message', 'channel' => 'channel', 'text' => 'hello', 'user' => 'user']);
     }
 
     /**
